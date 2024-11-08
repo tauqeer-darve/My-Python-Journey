@@ -72,7 +72,10 @@ def adventure_time():
     player_health = 100
     inventory = []
     game_over = False
-
+    mon_enc = 0
+    tre_enc = 0
+    pot_enc = 0
+    emp_enc = 0
     print(adventure_art.logo)
     print("""Welcome to Adventure Time!\n
 Your goal is to find the Ancient Artifact and escape 'ALIVE'.
@@ -87,12 +90,16 @@ Good luck, Adventurer!\n""")
                 encounter = rooms(encounters)
                 if encounter == "monster":
                     player_health, inventory = fight_monster(player_health, inventory)
+                    mon_enc += 1
                 elif encounter == "treasure":
                     inventory = find_treasure(inventory)
+                    tre_enc += 1
                 elif encounter == "potion":
                     player_health, inventory = find_potion(player_health, inventory)
+                    pot_enc += 1
                 else:
                     empty_room()
+                    emp_enc += 1
             else:
                 print("You gave up...\n")
                 game_over = True
@@ -110,15 +117,27 @@ Good luck, Adventurer!\n""")
                 print("You Died.")
                 game_over = True
         elif victory_item in inventory:
-            print("Congratulations! You found the Ancient Artifact!")
+            print("Congratulations! You found the Ancient Artifact!\n")
             game_over = True
         else:
             print("Game Over")
             game_over = True
-    print("Your final stats:\n")
+    print("Your final stats:")
     print(f"Player Health: {player_health}")
+    print(f"""Recap:
+    Monsters encountered: {mon_enc}
+    Treasures found: {tre_enc}
+    Potions found: {pot_enc}
+    Empty rooms: {emp_enc}""")
     print(f"Inventory: {inventory}")
+    print(f"""Total items in inventory: {len(inventory)}
+    Gold Coins: {inventory.count("Gold Coin")}
+    Potions: {inventory.count("Potion")}
+    Ancient Artifact: {inventory.count("Ancient Artifact")}""")
 
-while input("Do you want to start a new adventure?(y/n): ") == "y":
+
+while input("\nDo you want to start a new adventure?(y/n): ").lower() == "y":
     print("\n" * 50)
     adventure_time()
+
+print("Well Done! Bye!")
