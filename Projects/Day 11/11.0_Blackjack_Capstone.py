@@ -1,5 +1,5 @@
 import random
-import art
+import blackjack_art
 
 def deal_card():
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
@@ -31,7 +31,7 @@ def compare(score_comp,score_user):
         print("You Lose.")
 
 def blackjack():
-    print(art.logo)
+    print(blackjack_art.logo)
     user = []
     comp = []
     comp_score = -1
