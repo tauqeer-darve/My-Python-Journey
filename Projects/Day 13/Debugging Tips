@@ -1,0 +1,31 @@
+Debugging Tips:
+
+1. Describe the Problem  
+   Clearly outline what’s going wrong with your code.
+
+2. Reproduce the Problem  
+   Identify and recreate the issue reliably.
+
+3. Play Computer  
+   Manually read through and evaluate each line to understand what the code is doing.
+
+4. Fix Editor Errors and Use Try/Except  
+   Correct any errors flagged by your editor, and use try/except blocks where appropriate.
+
+5. Use Print Statements  
+   Insert print statements to track variable values and program flow.
+
+6. Use a Debugger  
+   Leverage debugging tools to inspect variables and step through the code.
+
+7. Take a Break  
+   Step away to gain a fresh perspective.
+
+8. Ask a Friend  
+   Get a second opinion from someone knowledgeable.
+
+9. Run Code Frequently  
+   Test your code often as you add or modify sections.
+
+10. Ask on StackOverflow  
+   If you're still stuck, seek help on StackOverflow or similar forums.
