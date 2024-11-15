@@ -32,7 +32,7 @@ resources = {
     "coffee": 100,
 }
 
-def coffee_making(cost1, water_av, wat, coffee_av, coff, milk_av, mil,earning):
+def make_coffee(cost1, water_av, wat, coffee_av, coff, milk_av, mil,earning):
     """Function to process the making of coffee"""
     if water_av >= wat and coffee_av >= coff and milk_av >= mil:
         print("Please insert coins.")
@@ -103,15 +103,15 @@ while not stop:
         cost = MENU[f'{choice}']["cost"]
 
         if choice == "latte":
-            report = coffee_making(cost,water_available,water,coffee_available,coffee,milk_available,milk,earnings)
+            report = make_coffee(cost,water_available,water,coffee_available,coffee,milk_available,milk,earnings)
             run += 1
 
         elif choice == "cappuccino":
-            report = coffee_making(cost,water_available,water,coffee_available,coffee,milk_available,milk,earnings)
+            report = make_coffee(cost,water_available,water,coffee_available,coffee,milk_available,milk,earnings)
             run += 1
 
         elif choice == "espresso":
-            report = coffee_making(cost,water_available,water,coffee_available,coffee,milk_available,milk,earnings)
+            report = make_coffee(cost,water_available,water,coffee_available,coffee,milk_available,milk,earnings)
             run += 1
 
         if report:
