@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Notes - Tauqeer Darve</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #00ff88;
+            font-weight: 700;
+            letter-spacing: -1px;
+            position: relative;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 3rem;
+            color: #fff;
+            font-weight: 400;
+            opacity: 0.8;
+            animation: slideIn 1s ease-out;
+        }
+
+        .start-btn {
+            display: inline-block;
+            padding: 18px 50px;
+            font-size: 1.4rem;
+            background: #00ff88;
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            background: #00cc6a;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .code-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .code-line {
+            position: absolute;
+            color: #00ff88;
+            font-family: monospace;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            animation: fallDown linear infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 0.8;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fallDown {
+            0% { 
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            90% {
+                opacity: 0.15;
+            }
+            100% { 
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+            .start-btn {
+                padding: 15px 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="code-background" id="codeBackground"></div>
+    <div class="container">
+        <h1>Python Notes</h1>
+        <h2>by Tauqeer Darve</h2>
+        <a href="notes.html" class="start-btn">Start Learning</a>
+        <h4> NOTE </h4>
+        <h6>These notes are for my understanding only.</h6>
+        <h6>They do not contain specific notes for each day but expands on it.</h6>
+    </div>
+
+    <script>
+        const pythonCode = [
+            'def learn_python():',
+            '    return "Knowledge"',
+            'class PythonNotes:',
+            '    def __init__(self):',
+            '        self.author = "Tauqeer"',
+            'if __name__ == "__main__":',
+            '    start_learning()',
+            'def calculate(x, y):',
+            '    return x + y',
+            'print("Hello World")',
+            'data = [1, 2, 3, 4, 5]',
+            'import numpy as np',
+            'def process_data():',
+            '    pass',
+            'x = lambda a: a * 2',
+            'for i in range(10):',
+            '    print(i)',
+            'try:',
+            '    main()',
+            'except Exception:',
+            '    pass',
+            'while True:',
+            '    learn()',
+            'def analyze():',
+            '    return stats'
+        ];
+
+        function createCodeLine() {
+            const line = document.createElement('div');
+            line.className = 'code-line';
+            line.style.left = Math.random() * 100 + '%';
+            // Varied animation speeds for more natural feel
+            line.style.animationDuration = (Math.random() * 6 + 8) + 's';
+            line.textContent = pythonCode[Math.floor(Math.random() * pythonCode.length)];
+            return line;
+        }
+
+        function initCodeBackground() {
+            const background = document.getElementById('codeBackground');
+            const numberOfLines = 35; // Increased number of lines
+            
+            // Stagger the initial creation of lines
+            let currentLine = 0;
+            const interval = setInterval(() => {
+                if (currentLine < numberOfLines) {
+                    const line = createCodeLine();
+                    background.appendChild(line);
+
+                    line.addEventListener('animationend', () => {
+                        background.removeChild(line);
+                        background.appendChild(createCodeLine());
+                    });
+
+                    currentLine++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 200); // Reduced delay between lines for more density
+
+            // Add extra lines periodically for more density
+            setInterval(() => {
+                if (background.children.length < numberOfLines) {
+                    const line = createCodeLine();
+                    background.appendChild(line);
+                    line.addEventListener('animationend', () => {
+                        background.removeChild(line);
+                        background.appendChild(createCodeLine());
+                    });
+                }
+            }, 1000);
+        }
+
+        // Slight initial delay before starting animation
+        setTimeout(initCodeBackground, 300);
+    </script>
+</body>
+</html>

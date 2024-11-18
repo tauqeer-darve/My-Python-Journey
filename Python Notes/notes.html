@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Learning Journey - Daily Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background: linear-gradient(135deg, #13151a 0%, #1a1f25 100%);
+            color: #fff;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            padding: 1rem 0 2rem;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #00ff88 0%, #00ffcc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.5rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+
+        .day-link {
+            position: relative;
+            padding: 1rem;
+            color: #fff;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .day-link:hover {
+            transform: translateY(-2px);
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.15);
+        }
+
+        .day-link:active {
+            transform: translateY(0);
+        }
+
+        .day-title {
+            font-size: clamp(1rem, 4vw, 1.25rem);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #00ff88;
+        }
+
+        .day-topics {
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.75rem;
+        }
+
+        .day-learnings {
+            font-size: clamp(0.75rem, 2.8vw, 0.85rem);
+            color: rgba(255, 255, 255, 0.7);
+            list-style-type: none;
+            margin-top: auto;
+        }
+
+        .day-learnings li {
+            margin-bottom: 0.4rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .day-learnings li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+        }
+
+        .code-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .code-line {
+            position: absolute;
+            color: rgba(0, 255, 136, 0.15);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: clamp(10px, 2vw, 14px);
+            white-space: nowrap;
+            opacity: 0;
+            animation: fallDown linear infinite;
+        }
+
+        @keyframes fallDown {
+            0% { 
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% { 
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .container {
+                padding: 0.75rem;
+                border-radius: 0.75rem;
+            }
+
+            header {
+                padding: 0.75rem 0 1.5rem;
+            }
+
+            .grid-container {
+                gap: 0.75rem;
+                padding: 0.25rem;
+            }
+
+            .day-link {
+                padding: 0.875rem;
+                border-radius: 0.75rem;
+            }
+            
+            /* Optimize touch targets */
+            .day-link {
+                min-height: 120px;
+            }
+        }
+
+        /* Small Screen Optimization */
+        @media (max-width: 360px) {
+            body {
+                padding: 0.25rem;
+            }
+
+            .container {
+                padding: 0.5rem;
+            }
+
+            .day-title {
+                margin-bottom: 0.5rem;
+            }
+
+            .day-topics {
+                margin-bottom: 0.5rem;
+            }
+
+            .day-learnings li {
+                margin-bottom: 0.3rem;
+            }
+        }
+
+        /* Landscape Mode Optimization */
+        @media (max-height: 500px) and (orientation: landscape) {
+            body {
+                min-height: 100%;
+            }
+
+            .container {
+                margin: 0.5rem auto;
+            }
+
+            header {
+                padding: 0.5rem 0 1rem;
+            }
+
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            .day-link {
+                background: rgba(0, 255, 136, 0.08);
+            }
+
+            .day-link:hover {
+                background: rgba(0, 255, 136, 0.12);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="code-background" id="codeBackground"></div>
+    <div class="container">
+        <header>
+            <h1>Python Learning Journey</h1>
+            <p class="subtitle">Daily Notes and Progress Tracking</p>
+        </header>
+        <div class="grid-container">
+                        <a href="#" class="day-link">
+                <div class="day-title">Day 1: Basics</div>
+                <div class="day-topics">Topics: Printing, String Manipulation, Variables</div>
+                <ul class="day-learnings">
+                    <li>• Console I/O operations</li>
+                    <li>• Variable fundamentals</li>
+                    <li>• Band Name Generator project</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 2: Data Types</div>
+                <div class="day-topics">Topics: Primitive Types, Type Operations</div>
+                <ul class="day-learnings">
+                    <li>• Type conversions</li>
+                    <li>• Mathematical operations</li>
+                    <li>• Tip Calculator project</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 3: Control Flow</div>
+                <div class="day-topics">Topics: if/else, Conditional Operators</div>
+                <ul class="day-learnings">
+                    <li>• Conditional logic</li>
+                    <li>• Logical operators</li>
+                    <li>• Treasure Island project</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 4: Randomization</div>
+                <div class="day-topics">Topics: Random Module, Lists</div>
+                <ul class="day-learnings">
+                    <li>• Random number generation</li>
+                    <li>• List manipulation</li>
+                    <li>• Rock-Paper-Scissors game</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 5: Loops</div>
+                <div class="day-topics">Topics: for Loops, Range Function</div>
+                <ul class="day-learnings">
+                    <li>• List iteration</li>
+                    <li>• FizzBuzz Generator</li>
+                    <li>• Password Generator project</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 6: Functions</div>
+                <div class="day-topics">Topics: While Loops, Functions</div>
+                <ul class="day-learnings">
+                    <li>• Custom functions</li>
+                    <li>• Reeborg's World challenges</li>
+                    <li>• Maze Solving Algorithm</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 8: Function Parameters</div>
+                <div class="day-topics">Topics: Arguments, Parameters</div>
+                <ul class="day-learnings">
+                    <li>• Function flexibility</li>
+                    <li>• Parameter handling</li>
+                    <li>• Caesar Cipher project</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 9: Dictionaries</div>
+                <div class="day-topics">Topics: Dictionaries, Nesting</div>
+                <ul class="day-learnings">
+                    <li>• Data organization</li>
+                    <li>• Nested structures</li>
+                    <li>• Secret Auction program</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 10: Function Outputs</div>
+                <div class="day-topics">Topics: Return Values, Docstrings</div>
+                <ul class="day-learnings">
+                    <li>• Reusable functions</li>
+                    <li>• Code documentation</li>
+                    <li>• Calculator project</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 11: Capstone</div>
+                <div class="day-topics">Topics: Project Development</div>
+                <ul class="day-learnings">
+                    <li>• BlackJack simulation</li>
+                    <li>• Text-Based Adventure</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 13: Debugging</div>
+                <div class="day-topics">Topics: Debug Techniques</div>
+                <ul class="day-learnings">
+                    <li>• Error handling</li>
+                    <li>• Debugging tools</li>
+                    <li>• Code optimization</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 14: Game Design</div>
+                <div class="day-topics">Topics: Game Logic</div>
+                <ul class="day-learnings">
+                    <li>• Randomization</li>
+                    <li>• Game loops</li>
+                    <li>• Higher or Lower Game</li>
+                </ul>
+            </a>
+
+            <a href="#" class="day-link">
+                <div class="day-title">Day 15: Coffee Machine</div>
+                <div class="day-topics">Topics: Resource Management</div>
+                <ul class="day-learnings">
+                    <li>• Payment processing</li>
+                    <li>• Resource tracking</li>
+                    <li>• Coffee Machine simulation</li>
+                </ul>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const pythonCode = [
+            'def learn_python():',
+            '    knowledge = []',
+            '    for day in range(15):',
+            '        knowledge.append(f"Day {day + 1}")',
+            '    return knowledge',
+            'print("Hello World")',
+            'for i in range(10):',
+            '    print(f"Learning Day {i + 1}")',
+            'class PythonJourney:',
+            '    def __init__(self):',
+            '        self.progress = 0',
+            '    def learn(self):',
+            '        self.progress += 1',
+            'def practice_makes_perfect():',
+            '    return "Keep coding!"'
+        ];
+
+        function createCodeLine() {
+            const line = document.createElement('div');
+            line.className = 'code-line';
+            line.style.left = Math.random() * 100 + '%';
+            line.style.animationDuration = (Math.random() * 6 + 8) + 's';
+            line.textContent = pythonCode[Math.floor(Math.random() * pythonCode.length)];
+            return line;
+        }
+
+        function initCodeBackground() {
+            const background = document.getElementById('codeBackground');
+            const numberOfLines = Math.min(10, Math.floor(window.innerWidth / 100));
+            
+            background.innerHTML = ''; // Clear existing lines
+            
+            for (let i = 0; i < numberOfLines; i++) {
+                const line = createCodeLine();
+                background.appendChild(line);
+
+                line.addEventListener('animationend', () => {
+                    background.removeChild(line);
+                    background.appendChild(createCodeLine());
+                });
+            }
+        }
+
+        // Initialize the background and handle window resize
+        initCodeBackground();
+        
+        // Debounce function to prevent too many resize events
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Handle window resize with debouncing
+        window.addEventListener('resize', debounce(() => {
+            initCodeBackground();
+        }, 250));
+
+        // Handle visibility change to prevent animation issues
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                const background = document.getElementById('codeBackground');
+                background.innerHTML = '';
+            } else {
+                initCodeBackground();
+            }
+        });
+    </script>
+</body>
+</html>
