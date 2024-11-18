@@ -198,7 +198,6 @@
             const line = document.createElement('div');
             line.className = 'code-line';
             line.style.left = Math.random() * 100 + '%';
-            // Varied animation speeds for more natural feel
             line.style.animationDuration = (Math.random() * 6 + 8) + 's';
             line.textContent = pythonCode[Math.floor(Math.random() * pythonCode.length)];
             return line;
@@ -206,9 +205,9 @@
 
         function initCodeBackground() {
             const background = document.getElementById('codeBackground');
-            const numberOfLines = 35; // Increased number of lines
+            const numberOfLines = 35;
             
-            // Stagger the initial creation of lines
+            
             let currentLine = 0;
             const interval = setInterval(() => {
                 if (currentLine < numberOfLines) {
@@ -224,9 +223,9 @@
                 } else {
                     clearInterval(interval);
                 }
-            }, 200); // Reduced delay between lines for more density
+            }, 200);
 
-            // Add extra lines periodically for more density
+            
             setInterval(() => {
                 if (background.children.length < numberOfLines) {
                     const line = createCodeLine();
@@ -238,8 +237,7 @@
                 }
             }, 1000);
         }
-
-        // Slight initial delay before starting animation
+        
         setTimeout(initCodeBackground, 300);
     </script>
 </body>
