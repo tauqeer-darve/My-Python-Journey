@@ -163,7 +163,7 @@
             }
         }
 
-        /* Mobile Optimization */
+       
         @media (max-width: 768px) {
             body {
                 padding: 0.5rem;
@@ -188,13 +188,13 @@
                 border-radius: 0.75rem;
             }
             
-            /* Optimize touch targets */
+           
             .day-link {
                 min-height: 120px;
             }
         }
 
-        /* Small Screen Optimization */
+       
         @media (max-width: 360px) {
             body {
                 padding: 0.25rem;
@@ -217,7 +217,7 @@
             }
         }
 
-        /* Landscape Mode Optimization */
+       
         @media (max-height: 500px) and (orientation: landscape) {
             body {
                 min-height: 100%;
@@ -236,7 +236,7 @@
             }
         }
 
-        /* Dark Mode Support */
+        
         @media (prefers-color-scheme: dark) {
             .day-link {
                 background: rgba(0, 255, 136, 0.08);
@@ -419,7 +419,7 @@
             const background = document.getElementById('codeBackground');
             const numberOfLines = Math.min(10, Math.floor(window.innerWidth / 100));
             
-            background.innerHTML = ''; // Clear existing lines
+            background.innerHTML = '';
             
             for (let i = 0; i < numberOfLines; i++) {
                 const line = createCodeLine();
@@ -432,10 +432,10 @@
             }
         }
 
-        // Initialize the background and handle window resize
+        
         initCodeBackground();
         
-        // Debounce function to prevent too many resize events
+        
         function debounce(func, wait) {
             let timeout;
             return function executedFunction(...args) {
@@ -448,12 +448,12 @@
             };
         }
 
-        // Handle window resize with debouncing
+        
         window.addEventListener('resize', debounce(() => {
             initCodeBackground();
         }, 250));
 
-        // Handle visibility change to prevent animation issues
+        
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 const background = document.getElementById('codeBackground');
