@@ -1,5 +1,6 @@
 import random
 import os
+import time
 
 logo = r"""
     __  ___       __             
@@ -324,6 +325,16 @@ def clear_screen():
     else:  # For macOS and Linux
         os.system('clear')
 
+def process():
+    """Tiny ... animation"""
+    print("Restarting",end="",flush=True)
+    for _ in range(3):
+        time.sleep(1)
+        print(".", end="",flush=True)
+    time.sleep(1)
+    
+
+
 # Randomly select a celebrity index without repetition
 def random_celeb(used_indices):
     if len(used_indices) == len(data):  # Reset if all celebrities have been used
@@ -385,5 +396,7 @@ def higher_or_lower():
 higher_or_lower()
 
 while input("Do you want to play again? (y/n): ").lower() == "y":
+    clear_screen()
+    process()
     clear_screen()
     higher_or_lower()
