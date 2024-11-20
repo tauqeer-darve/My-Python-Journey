@@ -1,6 +1,14 @@
 import random
-import art
-from game_data import data
+import os
+
+
+
+# Function to clear the screen
+def clear_screen():
+    if os.name == 'nt':  # For Windows
+        os.system('cls')
+    else:  # For macOS and Linux
+        os.system('clear')
 
 def random_celeb():
     i = random.randint(0, len(data) - 1)
@@ -53,5 +61,5 @@ def higher_or_lower():
 higher_or_lower()
 
 while input("Do you want to play again?(y/n): ") == "y":
-    print("\n" * 50)
+    clear_screen()
     higher_or_lower()
