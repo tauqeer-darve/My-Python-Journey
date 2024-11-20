@@ -1,4 +1,6 @@
 import time
+import os
+
 
 MENU = {
     "espresso": {
@@ -32,6 +34,10 @@ resources = {
     "coffee": 100,
 }
 
+def clear_screen():
+    """Clear the console screen."""
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def process():
     """Tiny ... animation"""
     for _ in range(3):
@@ -45,6 +51,8 @@ def check_resources(choice):
     for item, amount in ingredients.items():
         if resources[item] < amount:
             print(f"Sorry, there is not enough {item}.\n")
+            input("press ENTER to continue...")
+            clear_screen()
             return False
     return True
 
@@ -63,6 +71,8 @@ def make_coffee(choice):
     for item, amount in ingredients.items():
         resources[item] -= amount
     print(f"And here is your {choice} ☕️, Enjoy!\n")
+    input("press ENTER to continue...")
+    clear_screen()
 
 def resources_report(earnings):
     """Generate a report of current resources"""
@@ -72,6 +82,8 @@ def resources_report(earnings):
     print(f"Milk: {resources['milk']}ml")
     print(f"Coffee: {resources['coffee']}g")
     print(f"Money: ${earnings}\n")
+    input("press ENTER to continue...")
+    clear_screen()
 
 #Main program:
 stop = False
@@ -93,6 +105,8 @@ while not stop:
                 make_coffee(choice)
             else:
                 print("Sorry that's not enough money. Money refunded.\n")
+                input("press ENTER to continue...")
+                clear_screen()
 
     elif choice == "report":
         resources_report(earnings)
