@@ -1,4 +1,15 @@
-print(r'''
+import os
+import time
+
+def clear_screen():
+    # For Windows
+    if os.name == 'nt':
+        os.system('cls')
+    # For macOS and Linux
+    else:
+        os.system('clear')
+
+logo = r'''
 *******************************************************************************
           |                   |                  |                     |
  _________|________________.=""_;=.______________|_____________________|_______
@@ -19,60 +30,71 @@ ____/______/______/______/__"=._o--._   ;o|o;     _._;o;____/______/______/____
 ____/______/______/______/______/_____"=.o|o_.--""___/______/______/______/____
 /______/______/______/______/______/______/______/______/______/______/_____ /
 *******************************************************************************
-''')
-print("Welcome to Treasure Island.")
-print("Your mission is to find the treasure.")
-
-choice1 = input('You\'re at a crossroad, where do you want to go? '
-                'Type "left" or "right".\n').lower()
-
-if choice1 == "left":
-    choice2 = input('You\'ve come to a lake. '
-                    'There is an island in the middle of the lake. '
-                    'Type "wait" to wait for a boat, '
-                    'Type "swim" to swim across, '
-                    'or Type "build" to build a raft.\n').lower()
-
-    if choice2 == "wait":
-        choice3 = input("You arrive at the island unharmed. "
-                        "There is a house with 3 doors. One red, "
-                        "one yellow, and one blue. "
-                        "Which colour do you choose?\n").lower()
-
-        if choice3 == "red":
-            print("It's a room full of fire. Game Over.")
-        elif choice3 == "yellow":
-            print("You found the treasure. You Win!")
-        elif choice3 == "blue":
-            choice4 = input("You enter a room of beasts. "
-                            "Do you want to 'fight' or 'flee'?\n").lower()
-            if choice4 == "fight":
-                print("The beasts are too strong. Game Over.")
-            elif choice4 == "flee":
-                print("You managed to escape, but you're lost in the woods. Game Over.")
+'''
+print(logo)
+def treasure_island():
+    print("Welcome to Treasure Island.")
+    print("Your mission is to find the treasure.")
+    
+    choice1 = input('You\'re at a crossroad, where do you want to go? '
+                    'Type "left" or "right".\n').lower()
+    
+    if choice1 == "left":
+        choice2 = input('You\'ve come to a lake. '
+                        'There is an island in the middle of the lake. '
+                        'Type "wait" to wait for a boat, '
+                        'Type "swim" to swim across, '
+                        'or Type "build" to build a raft.\n').lower()
+    
+        if choice2 == "wait":
+            choice3 = input("You arrive at the island unharmed. "
+                            "There is a house with 3 doors. One red, "
+                            "one yellow, and one blue. "
+                            "Which colour do you choose?\n").lower()
+    
+            if choice3 == "red":
+                print("It's a room full of fire. Game Over.")
+            elif choice3 == "yellow":
+                print("You found the treasure. You Win!")
+            elif choice3 == "blue":
+                choice4 = input("You enter a room of beasts. "
+                                "Do you want to 'fight' or 'flee'?\n").lower()
+                if choice4 == "fight":
+                    print("The beasts are too strong. Game Over.")
+                elif choice4 == "flee":
+                    print("You managed to escape, but you're lost in the woods. Game Over.")
+                else:
+                    print("You hesitated and got caught. Game Over.")
             else:
-                print("You hesitated and got caught. Game Over.")
+                print("You chose a door that doesn't exist. Game Over.")
+    
+        elif choice2 == "swim":
+            print("You got attacked by an angry trout. Game Over.")
+    
+        elif choice2 == "build":
+            print("You built a sturdy raft and crossed the lake safely!")
+            choice5 = input("You see two paths on the island: one leading to a cave and another to a forest. "
+                            "Do you want to go to the 'cave' or 'forest'?\n").lower()
+    
+            if choice5 == "cave":
+                print("Inside the cave, you found ancient treasure! You Win!")
+            elif choice5 == "forest":
+                print("You got lost in the forest. Game Over.")
+            else:
+                print("That’s not a valid path. Game Over.")
+    
         else:
-            print("You chose a door that doesn't exist. Game Over.")
-
-    elif choice2 == "swim":
-        print("You got attacked by an angry trout. Game Over.")
-
-    elif choice2 == "build":
-        print("You built a sturdy raft and crossed the lake safely!")
-        choice5 = input("You see two paths on the island: one leading to a cave and another to a forest. "
-                        "Do you want to go to the 'cave' or 'forest'?\n").lower()
-
-        if choice5 == "cave":
-            print("Inside the cave, you found ancient treasure! You Win!")
-        elif choice5 == "forest":
-            print("You got lost in the forest. Game Over.")
-        else:
-            print("That’s not a valid path. Game Over.")
-
+            print("You chose an action that doesn't exist. Game Over.")
+    
     else:
-        print("You chose an action that doesn't exist. Game Over.")
+        print("You fell into a hole. Game Over.")
 
-else:
-    print("You fell into a hole. Game Over.")
-
+# Main game loop
+while True:
+    treasure_island()
+    retry = input("\nDo you want to try again? (y/n): ").lower()
+    if retry == "y":
+        clear_screen()
+        print(logo)
+        treasure_island()
+        

@@ -1,82 +1,93 @@
 import random
 import art
 import words
+import os
+import time
 
-# Game title logo from art.py
-print(art.logo,"\n")
+# Function to clear the screen
+def clear_screen():
+    if os.name == 'nt':  # For Windows
+        os.system('cls')
+    else:  # For macOS and Linux
+        os.system('clear')
 
-# Uses the ASCII art in art.py for defining stages
+# Display logo
+logo = art.logo
+print(logo, "\n")
+
+# List of stages representing each hangman drawing for the game.
 stages = art.stages
 
-# Uses the list of words in words.py
+# List of words from which a random word is chosen for the game.
 word_list = words.word_list
 
+# Function to play the game
+def play_hangman():
+    lives = 6
+    chosen_word = random.choice(word_list)
+    word_length = len(chosen_word)
+    placeholder = "_" * word_length
+    correct_list = []
 
-# Set the number of lives at the start of the game.
-lives = 6
+    # Print the initial hangman stage and placeholder
+    print(f"{stages[lives]}\n")
+    print(f"Word to guess: {placeholder}")
+    print("Lives: 6/6")
+    
 
-# Select a random word from the word list for the player to guess.
-chosen_word = random.choice(word_list)
+    game_over = False
 
-#Debugging: Displays the chosen word for testing.
-#print(chosen_word)
+    while not game_over:
+        guess = input("\nGuess a letter: ").lower()
+        clear_screen()
+        print(logo, "\n")
 
+       
+        if guess in correct_list:
+            print(f"You've already guessed '{guess}'.")       
+        display = ""
 
-# Create a placeholder to display hidden letters as underscores.
-placeholder = ""
-word_length = len(chosen_word)
-for position in range(word_length):
-    placeholder += "_"
-print(f"Word to guess: {placeholder}")
-print("Lives: 6/6")
+        for letter in chosen_word:
+            if letter == guess:
+                display += letter
+                if guess not in correct_list:
+                    correct_list.append(guess)
+            elif letter in correct_list:
+                display += letter
+            else:
+                display += "_"
 
-# Flag to control the game's while loop.
-game_over = False
+        # Check if guess is incorrect
+        if guess not in chosen_word:
+            lives -= 1
+            print(f"Wrong guess! {lives}/6 lives remaining.")
+            
 
-# List to track correctly guessed letters to be displayed.
-correct_list = []
+        # Update and print the hangman stage
+        print(f"{stages[lives]}\n")
+        print(f"Word to guess: {display}")
+        
 
-# Main game loop continues until the player wins or runs out of lives.
-while not game_over:
+        # End the game if out of lives
+        if lives == 0:
+            print("Out of lives! You lose.")
+            print(f"The word was '{chosen_word}'")
+            time.sleep(1)
+            game_over = True
 
-    # Prompt player to guess a letter.
-    guess = input("Guess a letter: ").lower()
-    display = ""
+        # End the game if the word is guessed
+        if "_" not in display:
+            print("Guessed the word! You win!")
+            time.sleep(1)
+            game_over = True
 
-    # Check each letter in the chosen word for matches with the player's guess.
-    for letter in chosen_word:
-        if letter == guess:
-            # Add correct guessed letter to the display string.
-            display += letter
-            # Add letter to correct_list if it hasn’t been added already.
-            if guess not in correct_list:
-                correct_list.append(guess)
-            elif guess in correct_list:
-                print("Letter already guessed.")  # Inform player of duplicate guesses.
-        elif letter in correct_list:
-            # If letter was guessed previously, display it as well.
-            display += letter
-        else:
-            # For letters not yet guessed, display an underscore.
-            display += "_"
-
-    print(display)  # Show current state of the guessed word.
-
-    # If the guessed letter is not in the chosen word, reduce lives.
-    if guess not in chosen_word:
-        lives -= 1
-        print(f"Wrong guess! {lives}/6 lives remaining.")
-
-    # Print the current hangman stage based on remaining lives.
-    print(stages[lives])
-
-    # Check if the player has run out of lives to end the game.
-    if lives == 0:
-        print("Out of lives! You lose.")
-        print(f"The word was '{chosen_word}'")
-        game_over = True
-
-    # Check if there are no underscores left, meaning the word was guessed correctly.
-    if "_" not in display:
-        print("Guessed the word! You win!")
-        game_over = True
+# Main loop for replaying the game
+while True:
+    play_hangman()
+    retry = input("\nDo you want to play again? (y/n): ").lower()
+    if retry != "y":
+        print("Thanks for playing! Goodbye!")
+        time.sleep(2)
+        break
+    clear_screen()
+    print(logo)

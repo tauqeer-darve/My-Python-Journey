@@ -1,5 +1,6 @@
 import random
 import os
+import time
 
 logo = r"""
     __  ___       __             
@@ -317,7 +318,6 @@ data = [
 ]
 
 
-
 # Function to clear the screen
 def clear_screen():
     if os.name == 'nt':  # For Windows
@@ -325,40 +325,59 @@ def clear_screen():
     else:  # For macOS and Linux
         os.system('clear')
 
-def random_celeb():
-    i = random.randint(0, len(data) - 1)
-    return i
+def process():
+    """Tiny ... animation"""
+    print("Restarting",end="",flush=True)
+    for _ in range(3):
+        time.sleep(1)
+        print(".", end="",flush=True)
+    time.sleep(1)
+    
 
-def comparison(celeb_a,celeb_b,guess):
+
+# Randomly select a celebrity index without repetition
+def random_celeb(used_indices):
+    if len(used_indices) == len(data):  # Reset if all celebrities have been used
+        used_indices.clear()
+    while True:
+        i = random.randint(0, len(data) - 1)
+        if i not in used_indices:
+            used_indices.add(i)
+            return i
+
+# Compare follower counts and check the user's guess
+def comparison(celeb_a, celeb_b, guess):
     if (celeb_a > celeb_b and guess == "A") or (celeb_a < celeb_b and guess == "B"):
         return True
     else:
         return False
 
+# Main game function
 def higher_or_lower():
-    print(art.logo)
+    print(logo)
     game_over = False
     score = 0
     higher = 0
+    used_indices = set()
+
     while not game_over:
-        index = random_celeb()
-        index2 = random_celeb()
+        index = random_celeb(used_indices)
+        index2 = random_celeb(used_indices)
+
         b_celeb = data[index2]['follower_count']
         if score == 0:
             a_celeb = data[index]['follower_count']
             print(f"{data[index]['name']}, a {data[index]['description']}, from {data[index]['country']}")
-            print("Followers: ",a_celeb, "Index: ", index,"\n")
         else:
             a_celeb = data[higher]['follower_count']
             print(f"{data[higher]['name']}, a {data[higher]['description']}, from {data[higher]['country']}")
-            print("Followers: ", a_celeb, "Higher: ", higher,"\n")
 
-        print("V/S\n")
+        print("\nV/S\n")
 
         print(f"{data[index2]['name']}, a {data[index2]['description']}, from {data[index2]['country']}")
-        print("Followers: ",b_celeb, "Index: ", index2,"\n")
-        answer = input("Who has more followers?\nType 'A' or 'B': ").upper()
-        compare = comparison(a_celeb,b_celeb,answer)
+
+        answer = input("\nWho has more followers?\nType 'A' or 'B': ").upper()
+        compare = comparison(a_celeb, b_celeb, answer)
         if compare:
             if answer == "A" and score == 0:
                 higher = index
@@ -373,8 +392,11 @@ def higher_or_lower():
             print(f"\nSorry, that's wrong. Final Score: {score}")
             game_over = True
 
+# Play the game and allow replay
 higher_or_lower()
 
-while input("Do you want to play again?(y/n): ") == "y":
+while input("Do you want to play again? (y/n): ").lower() == "y":
+    clear_screen()
+    process()
     clear_screen()
     higher_or_lower()
